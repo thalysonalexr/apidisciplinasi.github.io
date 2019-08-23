@@ -1,0 +1,1933 @@
+FORMAT: 1A
+HOST: http://myhost/api/v1
+
+# API Disciplinas SI
+
+**Bem-vindo(a)!**
+
+Esta WEB API tem como objetivo fornecer uma camada para gerenciamento dos dados de disciplinas e horários do curso de Sistemas de Informação da Universidade Federal de Rondonópolis (UFR). Além do gerenciamento dos dados, a API fornece rotas públicas aceitando requisições e respostas no formato JSON. A especificação do uso está descrita abaixo:
+
+## Group Sobre a documentação
+*Links com a documentação do projeto*
+
+## About [/]
+> Informações gerais sobre construção, documentação e utilização desta API.
+
+### Sobre a documentação [GET]
+
++ Response 200 (application/json)
+    + Attributes (Documentation)
+
+## Group Users
+*Recurso de Usuários da aplicação*
+
+## Users [/users/auth]
+> Este endpoint representa a autenticação de usuários para obtenção de token de acesso
+
+### Autenticação de Usuário [POST]
+
++ Request Realizar autenticação
+
+    + Headers
+
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes(UserLogin)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Content-Encoding: gzip
+            Content-Length: 300
+
+    + Attributes(Logged)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/logout]
+> Este endpoint representa a saída de usuários do sistema, invalidando o presente token da requisição
+
+### Logout de usuário [POST]
+
++ Request Fazer logout
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Response 204
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/timeout]
+
+
+### Expirar sessão de usuário [POST]
+> Este endpoint deve ser utilizado quando identificado a expiração de token, realizando assim uma atualização sobre timeout
+
++ Request Expirar sessão de usuário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Response 204
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users]
+
+### Criar um novo usuário [POST]
+> Este endpoint representa a criação de usuários no sistema, o token deve conter a informação de administrador para realização do mesmo
+
++ Request Criar um novo usuário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (User)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Content-Location: /api/v1/users/1
+            Content-Length: 300
+            Content-Encoding: gzip
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users{?name}{&admin,status,page}]
+> Este endpoint representa a seleção por todas os usuários registrados, ativos, inativos, administradores e etc.
+
+### Listar todos usuários [GET]
+
++ Request Listar dados de todos usuários
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+
++ Parameters
+    + name: `Thalyson Rodrigues` (string, optional) - Nome do usuário
+    + admin: `true` (boolean, optional) - Nível de acesso do usuário **padrão/administrador**
+    + status: `false` (boolean, optional) - Status do usuário no sistema **ativo/inativo**
+    + page: `12` (number, optional) - Número da página dos items (*limite de 25 por página*)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataUsers)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/{id}]
+> Este endpoint representa a seleção de um usuário a partir de seu código identificador
+
+### Buscar dados de um único usuário pelo código identificador [GET]
+
++ Request Buscar dados de usuário por {id}
+
+    + Headers
+
+            Authorization: Bearer {jwt}
+
++ Parameters
+    + id: `2314` (number, required) - Código identificador do usuário
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (UserGet)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/{username}]
+> Este endpoint representa a seleção de um usuário a partir de seu nome de usuário
+
+### Buscar dados de um único usuário pelo nome de usuário [GET]
+
++ Request Buscar dados de usuário por {username}
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Parameters
+    + username: `thalysonrodrigues` (string, required) - Nome de usuário para acesso
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (UserGet)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/{id_user}/subjects{?cod}{&name,description,nickname,type,workload,semester,weight}]
+> Este endpoint representa a seleção de todas as disciplinas cadastradas por determinado usuário
+
+### Selecionar todas disciplinas por usuário [GET]
+
++ Request Selecionar disciplinas por usuário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+    
++ Parameters
+    + id_user: `3213` (number, required) - Código identificador do usuário
+    + cod: `123456789` (string, optional) - Código da disciplina
+    + name: `Algoritmos II` (string, optional) - Nome da disciplina
+    + description: `...` (string, optional) - Descrição sobre a disciplina
+    + nickname: `ALG II` (string, optional) - Apelido da disciplina
+    + type: `OBRIGATORIA` (string, optional) - Tipo da disciplina **OBRIGATORIA/OPTATIVA**
+    + workload: `64` (number, optional) - Carga horária total trabalhada
+    + semester: `6` (number, optional) - Semestre da disciplina
+    + weight: `2` (number, optional) - Peso da disciplina
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataUserSubjects)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/{id}/enable]
+> Este endpoint representa a ativação e inativação de usuários no sistema pelo seu identificador
+
+### Ativar ou desativar um usuário [PATCH]
+
++ Request Ativar ou desativar benefício
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+
++ Parameters
+    + id: `3256` (number, required) - Código identificador do usuário
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Content-Length: 300
+            Content-Encoding: gzip
+            Content-Type: application/json
+
+    + Attributes (Response)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/{id}]
+> Este endpoint representa a edição de dados de usuários pelo seu identificador
+
+### Editar dados de um usuário [PUT]
+
++ Request Editar dados de usuário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+    
+    + Attributes (User)
+
++ Parameters
+    + id: `9872` (number, required) - Código identificador do usuário
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Content-Length: 300
+            Content-Encoding: gzip
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Users [/users/{id}]
+> Este endpoint representa a remoção de dados de usuário pelo seu código identificador
+
+### Remover recurso de usuário [DELETE]
+
++ Request Remover recurso de usuário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+    
++ Parameters
+    + id: `3451` (number, required) - Código identificador do usuário
+
++ Response 204
+
+    + Headers
+
+            Entity: 3451
+
++ Response 304
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Group Subjects
+*Recurso de disciplinas da aplicação*
+
+## Subjects [/subjects/create]
+> Este endpoint representa a criação de disciplinas no sistema
+
+### Criar uma nova disciplina [POST]
+
++ Request Criar uma nova disciplina
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (Subject)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Content-Location: /api/v1/subjects/1
+            Content-Length: 300
+            Content-Encoding: gzip
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects/requirements]
+> Este endpoint representa a associação de disciplinas com requisitos
+
+### Associar disciplina com requisitos [POST]
+
++ Request Associar disciplina com requisitos
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (idSubjectIdRequirement)
+
++ Response 204
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects{?cod}{&name,description,nickname,type,workload,semester,weight,page}]
+> Este endpoint representa a seleção por todas as disciplinas registradas
+
+### Listar todas disciplinas [GET]
+
++ Request Listar dados de todas as disciplinas
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + cod: `123456789` (string) - Código da disciplina
+    + name: `Algoritmos II` (string) - Nome da disciplina
+    + description: `...` (string) - Descrição sobre a disciplina
+    + nickname: `ALG II` (string) - Apelido da disciplina
+    + type: `OBRIGATORIA` (string) - Tipo da disciplina **OBRIGATORIA/OPTATIVA**
+    + workload: `64` (number) - Carga horária total trabalhada
+    + semester: `6` (number) - Semestre da disciplina
+    + weight: `2` (number) - Peso da disciplina
+    + page: `12` (number, optional) - Número da página dos items (*limite de 25 por página*)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataSubjects)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects/{id}]
+> Este endpoint representa a seleção de uma disciplina a partir de seu código identificador
+
+### Buscar dados de uma única disciplina pelo código identificador [GET]
+
++ Request Buscar dados de disciplina por {id}
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + id: `2314` (number, required) - Código identificador da disciplina
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (SubjectGet)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects/{id}/requirements]
+> Este endpoint representa a seleção de requisitos de uma disciplina informada
+
+### Buscar dados de disciplinas requisitos pelo código identificador [GET]
+
++ Request Buscar dados de requisitos de disciplinas por {id}
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + id: `2314` (number, required) - Código identificador da disciplina
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataSubjects)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects/{id}]
+> Este endpoint representa a edição de dados de disciplinas pelo seu identificador
+
+### Editar dados de uma disciplina [PUT]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (Subject)
+
++ Parameters
+    + id: `5872` (number, required) - Código identificador da disciplina
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 304
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects/{id_subject}/requirements/{id_requirement}]
+> Este endpoint representa a alteração da associação de disciplinas e seus requisitos
+
+### Alterar associação de disciplina e requisito [PUT]
+
++ Request Associar disciplina e requisito
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+    
+    + Attributes (idSubjectIdRequirement)
+
++ Parameters
+    + id_subject: `3214` (number) - Código identificador da disciplina
+    + id_requirement: `3451` (number) - Código identificador da disciplina requisito
+
++ Response 204
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects/{id}]
+> Este endpoint representa a remoção de dados de disciplinas pelo seu código identificador
+
+### Remover recurso de disciplina [DELETE]
+
++ Request Remover recurso de uma disciplina
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Parameters
+    + id: `7451` (number, required) - Código identificador da disciplina
+
++ Response 204
+
+    + Headers
+
+            Entity: 7451
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Subjects [/subjects/{id_subject}/requirements/{id_requirement}]
+> Este endpoint representa a remoção da associação entre disciplina e requisito
+
+### Remover associação disciplina e requisito [DELETE]
+
++ Request Remover associação disciplina e requisito
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Parameters
+    + id_subject: `3214` (number) - Código identificador da disciplina
+    + id_requirement: `3451` (number) - Código identificador da disciplina requisito
+
++ Response 204
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Group Rooms
+*Este recurso representa as salas de aula da aplicação*
+
+## Rooms [/rooms]
+> Este endpoint representa a criação de dados de salas
+
+### Criação de novas salas [POST]
+
++ Request Criar nova sala
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (Room)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Content-Location: /api/v1/rooms/1
+            Content-Length: 300
+            Content-Encoding: gzip
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Rooms [/rooms{?number}{&description,block,page}]
+> Este endpoint representa a seleção de dados de todas as salas de aula
+
+### Selecionar todas as salas [GET]
+
++ Request Selecionar todas as salas
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + number: `15` (number) - Numeração da sala
+    + description: `Laboratório 2` (string) - Descrição da sala
+    + block: `D` (string) - Bloco onde se encontra a sala
+    + page: `12` (number, optional) - Número da página dos items (*limite de 25 por página*)
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataRooms)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Rooms [/rooms/{id}]
+> Este endpoint representa a seleção de uma sala a partir de seu código identificador
+
+### Buscar dados de uma sala pelo código identificador [GET]
+
++ Request Buscar dados de sala por {id}
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + id: `2314` (number, required) - Código identificador da sala
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (RoomGet)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Rooms [/rooms/{id}]
+> Este endpoint representa a edição de dados de salas pelo seu identificador
+
+### Editar dados de uma sala [PUT]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (Room)
+
++ Parameters
+    + id: `5872` (number, required) - Código identificador da sala
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Rooms [/rooms/{id}]
+> Este endpoint representa a remoção de dados de disciplinas pelo seu código identificador
+
+### Remover recurso de sala [DELETE]
+
++ Request Remover recurso de uma sala
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Parameters
+    + id: `2324` (number, required) - Código identificador da sala
+
++ Response 204
+
+    + Headers
+
+            Entity: 2324
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Group Teachers
+*Este recurso representa os professores das aulas*
+
+## Teachers [/teachers]
+> Este endpoint representa o cadastro de dados de professores
+
+### Cadastro de novos professores [POST]
+
++ Request Cadastrar novo professor
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (Teacher)
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Content-Location: /api/v1/teachers/1
+            Content-Length: 300
+            Content-Encoding: gzip
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Teachers [/teachers{?name}{&email}]
+> Este endpoint representa a seleção de dados de professores
+
+### Selecionar todos os professores [GET]
+
++ Request Selecionar todas os professores
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + name: `Cleyton Slaviero` (string) - Nome do professor
+    + email: `cleyton@email.com` (string) - E-mail de contato do professor
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataTeachers)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Teachers [/teachers/{id}]
+> Este endpoint representa a seleção de professores a partir de seu código identificador
+
+### Buscar dados de professor pelo código identificador [GET]
+
++ Request Buscar dados de professor por {id}
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + id: `2314` (number, required) - Código identificador da professor
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (TeacherGet)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Teachers [/teachers/{id}]
+> Este endpoint representa a edição de dados de professores pelo seu identificador
+
+### Editar dados de professor [PUT]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (Teacher)
+
++ Parameters
+    + id: `5872` (number, required) - Código identificador do professor
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Teachers [/teachers/{id}]
+> Este endpoint representa a remoção de dados de professores pelo seu código identificador
+
+### Remover recurso de professor [DELETE]
+
++ Request Remover recurso de um professor
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Parameters
+    + id: `2324` (number, required) - Código identificador do professor
+
++ Response 204
+
+    + Headers
+
+            Entity: 2324
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Group Schedule
+*Recurso do horário da aplicação*
+
+## Schedule [/schedule]
+> Este endpoint representa a criação de um novo horário
+
+### Criar um novo horário [POST]
+
++ Request Criar um novo horário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+    
+    + Attributes (Schedule)
+
++ Response 201
+
+    + Headers
+
+            Content-Location: /api/v1/schedule/1
+            Content-Length: 300
+            Content-Encoding: gzip
+            Content-Type: application/json
+
+    + Attributes (Created)
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Schedule [/schedule/{id}/approve]
+> Este endpoint representa a aprovação de horários
+
+### Aprovar dados de horário [POST]
+
++ Request Aprovar horário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Parameters
+    + id: `2324` (number, required) - Código identificador do horário
+
++ Response 204
+
++ Response 304
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 403 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Schedule [/schedule/{year}/{period}]
+> Este endpoint representa a seleção da grade horária atual
+
+### Seleção de dados da grade horária [GET]
+
++ Request Selecionar dados do horário
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + year: `2019` (number, required) - Ano da grade horária
+    + period: `2` (number, required) - Período do semestre
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataSchedule)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Schedule [/schedule/suggestion/{year}/{period}{?completed}{&semester}]
+> Este endpoint representa seleção de sugestão de horários
+
+### Seleção de sugestão de horários [GET]
+
++ Request Selecionar dados de horário para sugestão
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + completed: `12,16,19,20,32` (string, optional) - disciplinas concluidas pelo discente
+    + semester: `5` (number, required) - semestre que o discente irá cursar
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataSchedule)
+
++ Response 400 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Schedule [/schedule/{id}]
+> Este endpoint representa a seleção de um horário a partir de seu código identificador
+
+### Buscar dados de horário pelo código identificador [GET]
+
++ Request Buscar dados de horário por {id}
+
+    + Headers
+
+            Accept: application/json
+
++ Parameters
+    + id: `2314` (number, required) - Código identificador do horário
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (ScheduleGet)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Schedule [/schedule/{year}/{period}/notifications]
+> Este endpoint representa a seleção de horários a serem aprovados pelo administrador
+
+### Seleção de dados da grade horária pendentes a serem aprovados [GET]
+
++ Request Selecionar dados de horários pendentes
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+
++ Parameters
+    + year: `2019` (number, required) - Ano da grade horária
+    + period: `2` (number, required) - Período do semestre
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Expires: Thu, 25 Jul 2019 02:12:54 GMT
+            Cache-Control: max-age=300
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/hal+json
+
+    + Attributes (MetadataSchedule)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Schedule [/schedule/{id}]
+> Este endpoint representa a edição de dados de horário pelo seu identificador
+
+### Editar dados de horário [PUT]
+
++ Request
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+            Accept: application/json
+            Content-Type: application/json
+
+    + Attributes (Schedule)
+
++ Parameters
+    + id: `4214` (number, required) - Código identificador do horário
+
++ Response 200 (application/json)
+
+    + Headers
+
+            Content-Encoding: gzip
+            Content-Length: 300
+            Content-Type: application/json
+
++ Response 304
+
++ Response 400 (application/json)
+    + Attributes (LogErrors)
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 415 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+## Schedule [/schedule/{id}]
+> Este endpoint representa a remoção de horário pelo seu código identificador
+
+### Remover recurso de horário [DELETE]
+
++ Request Remover recurso de um horário
+
+    + Headers
+
+            Authorization: Bearer {Jwt}
+
++ Parameters
+    + id: `4214` (number, required) - Código identificador do horário
+
++ Response 204
+
++ Response 401 (application/json)
+    + Attributes (Error)
+
++ Response 404 (application/json)
+    + Attributes (Error)
+
++ Response 405 (application/json)
+    + Attributes (Error)
+
++ Response 422 (application/json)
+    + Attributes (Error)
+
++ Response 500 (application/json)
+    + Attributes (Error)
+
+# Data Structures
+
+## UserLogin (object)
+
++ username: `thalysonrodrigues` (string) - Nome de usuário para acesso
++ password: `12345` (string) - Senha de usuário para acesso
+
+## User (object)
+
++ name: `Thalyson Rodrigues` (string) - Nome completo do usuário
++ username: `thalysonrodrigues` (string) - Nome de usuário para acesso
++ password: `12345` (string) - Senha de usuário para acesso
++ admin: `1` (number) - Flag de administrador 1 | 0
+
+## UserGet (object)
+
++ id: `3124` (number) - Código identificador do usuário
++ name: `Thalyson Rodrigues` (string) - Nome completo do usuário
++ username: `thalysonrodrigues` (string) - Nome de usuário para acesso
++ admin: `true` (boolean) - Flag de administrador
++ status: `true` (boolean) - Status do usuário no sistema (**ativo/inativo**)
++ created_at: `2019-07-01 02:53:56` (string) - Data de criação do usuário
++ _links (object)
+    + self (object)
+        + href: `http://myhost/api/v1/users/3124` (string)
+
+## Subject (object)
+
++ cod: `123456789` (string) - Código da disciplina
++ name: `Algoritmos II` (string) - Nome da disciplina
++ description: `...` (string) - Descrição sobre a disciplina
++ nickname: `ALG II` (string) - Apelido da disciplina
++ type: `OBRIGATORIA` (string) - Tipo da disciplina **OBRIGATORIA/OPTATIVA**
++ workload: `64` (number) - Carga horária total trabalhada
++ semester: `6` (number) - Semestre da disciplina
++ weight: `2` (number) - Peso da disciplina
+
+## SubjectGet (object)
+
++ id: `3986` (number) - Código identificador da disciplina
++ cod: `123456789` (string) - Código da disciplina
++ name: `Algoritmos II` (string) - Nome da disciplina
++ description: `...` (string) - Descrição sobre a disciplina
++ nickname: `ALG II` (string) - Apelido da disciplina
++ type: `OBRIGATORIA` (string) - Tipo da disciplina **OBRIGATORIA/OPTATIVA**
++ workload: `64` (number) - Carga horária total trabalhada
++ semester: `6` (number) - Semestre da disciplina
++ weight: `2` (number) - Peso da disciplina
++ id_user: `1321` (number) - CMetadataRoomr do usuário que registrou as Informações
++ _links (object)
+    + self (object)
+        + href: `http://myhost/api/v1/subjects/3986` (string)
+
+## SubjectAll (object)
+
++ id: `3986` (number) - Código identificador da disciplina
++ cod: `123456789` (string) - Código da disciplina
++ name: `Algoritmos II` (string) - Nome da disciplina
++ description: `...` (string) - Descrição sobre a disciplina
++ nickname: `ALG II` (string) - Apelido da disciplina
++ type: `OBRIGATORIA` (string) - Tipo da disciplina **OBRIGATORIA/OPTATIVA**
++ workload: `64` (number) - Carga horária total trabalhada
++ semester: `6` (number) - Semestre da disciplina
++ weight: `2` (number) - Peso da disciplina
++ id_user: `1321` (number) - Código identificador do usuário que registrou as Informações
+
+## TeacherAll (object)
+
++ id: `3986` (number) - Código identificador do professor
++ name: `Cleyton Slaviero` (string) - Nome do professor
++ email: `cleyton@email.com` (string) - E-mail de contato do professor
+
+## SubjectsSuggestion (object)MetadataRoom
+
++ complete: `3125`, `2145`, `5123`, `9894`, `4123` (array[number]) - Código identificador das disciplinas concluidas
+
+## Day (object)
+
++ id: `3124` (number) - Código identificador do dia
++ number `2` (number) - Numeração do dia
++ title: `Segunda-feira` (string) - Título do dia
+
+## RoomGet (object)
+
++ id: `3412` (number) - Código identificador da sala
++ number: `15` (number) - Numeração da sala
++ description: `Laboratório 2` (string) - Descrição da sala
++ block: `D` (string) - Bloco onde se encontra a sala
++ _links (object)
+    + self (object)
+        + href: `http://myhost/api/v1/rooms/3412` (string)
+
+## TeacherGet (object)
+
++ id: `3986` (number) - Código identificador do professor
++ name: `Cleyton Slaviero` (string) - Nome do professor
++ email: `cleyton@email.com` (string) - E-mail de contato do professor
++ _links (object)
+    + self (object)
+        + href: `http://myhost/api/v1/teachers/3412` (string)
+
+## Room (object)
+
++ number: `15` (number) - Numeração da sala
++ description: `Laboratório 2` (string) - Descrição da sala
++ block: `D` (string) - Bloco onde se encontra a sala
+
+## Teacher (object)
+
++ name: `Cleyton Slaviero` (string) - Nome do professor
++ email: `cleyton@email.com` (string) - E-mail de contato do professor
+
+## RoomAll (object)
+
++ id: `3412` (number) - Código identificador da sala
++ number: `15` (number) - Numeração da sala
++ description: `Laboratório 2` (string) - Descrição da sala
++ block: `D` (string) - Bloco onde se encontra a sala
+
+## Suggestion (object)
+
++ suggestion (object)
+    + day (Day)
+    + room (RoomGet)
+    + subject (SubjectGet)
+
+## SubjectRoom (object)
+
++ id: `3986` (number) - Código identificador da disciplina
++ cod: `123456789` (string) - Código da disciplina
++ name: `Algoritmos II` (string) - Nome da disciplina
++ description: `...` (string) - Descrição sobre a disciplina
++ nickname: `ALG II` (string) - Apelido da disciplina
++ type: `OBRIGATORIA` (string) - Tipo da disciplina **OBRIGATORIA/OPTATIVA**
++ workload: `64` (number) - Carga horária total trabalhada
++ semester: `6` (number) - Semestre da disciplina
++ weight: `2` (number) - Peso da disciplina
++ id_user: `1321` (number) - Código identificador do usuário que registrou as Informações
++ room (Room) - Sala de funcionamento da disciplina
+
+## Schedule (object)
+
++ id_day: `1234` (number) - Código identificador do dia
++ id_room: `1423` (number) - Código identificador da sala
++ id_subject: `5513` (number) - Código identificador da disciplina
++ id_teacher: `3212` (number) - Código identificador do professor
++ time: `19:00 às 23:00` (string) - Horário de funcionamento da disciplina
++ lab: `Laboratório 2` (string) - Se o horário possui laboratório
++ year: `2019` (number) - Ano do semestre
++ period: `1` (number) - Período do semestre **1/2**
+
+## ScheduleGet (object)
+
++ id: `6325` (number) - Código identificador do horário
++ day (Day)
++ room (RoomAll)
++ subject (SubjectAll)
++ teacher (TeacherAll)
++ time: `19:00 às 23:00` (string) - Horário de funcionamento da disciplina
++ lab: `Laboratório 2` (string) - Se o horário possui laboratório
++ year: `2019` (number) - Ano do semestre
++ period: `1` (number) - Período do semestre **1/2**
++ created_at: `2019-07-01 02:53:56` (string) - Data de criação do horário
++ status: `true` (boolean) - Disciplina se ativa
++ _links (object)
+    + self (object)
+        + href: `http://myhost/api/v1/schedule/6325` (string)
+
+## Logged (object)
+
++ exp: `1561964295` (string) - Tempo de expiração do token
++ token: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c` (string) - Token Jwt para acesso de recursos
+
+## idSubjectIdRequirement (object)
+
++ id_subject: `5612` (number) - Código identificador da disciplina
++ id_requirement: `3124` (number) - Código identificador do requisito
+
+## Error (object)
+
++ code: `404` (number) - Código de status HTTP 1.1
++ message: `Not Found` (string) - Mensagem do status
++ description: `Este recurso não foi encontrado` (string) - Descrição detalhada do erro ocasionado
+
+## LogErrors (object)
+
++ code: `400` (number) Código de status HTTP 1.1
++ messages (object)
+    + field (object)
+        + classError: `O campo "username" deve conter mais de 5 caracteres` (string) - Mensagem detalhada sobre o erro
+
+## Created
+
++ id: `6325` (number) - Código identificador do recurso gerado/atualizado
+
+## Response
+
++ data (object)
+    + success: `true` (boolean) - Operação realizada com sucesso: **true/false**
+    + message: `Ok!` (string) - Mensagem da Operação
+
+## Documentation
+
++ docs (object)
+    + message: `Seja Bem vindo a API Disciplinas de SI` (string) - Mensagem de boas-vindas
+    + description: `Esta API tem por objetivo...` (string) - Descrição do projeto
+    + link: `https://myhost/api/v1` (string) - link para documentação da api
+
+## Metadata (object)
+
++ _links (object)
+    + self (object)
+        + href: `/api/v1/users/2421` (string) - link para **uri** do próprio recurso apresentado
+
+## MetadataUser (object)
+
++ user (UserGet)
+
+## MetadataUserSubjects (Metadata)
+
++ id: `3124` (number) - Código identificador do usuário
++ name: `Thalyson Rodrigues` (string) - Nome completo do usuário
++ username: `thalysonrodrigues` (string) - Nome de usuário para acesso
++ admin: `true` (boolean) - Flag de administrador
++ status: `true` (boolean) - Status do usuário no sistema (**ativo/inativo**)
++ created_at: `2019-07-01 02:53:56` (string) - Data de criação do usuário
++ subjects (array[SubjectGet])
++ _links (object)
+    + self (object)
+        + href: `http://myhost/api/v1/users/3124` (string)
+
+## MetadataSubject (Metadata)
+
++ subject (SubjectGet)
+
+## MetadataRoom (Metadata)
+
++ room (RoomGet)
+
+## MetadataCollection (object)
+
++ _total_items: `407` (number) - Total de items encontrados
++ _page: `7` (number) - Página atual
++ _page_count: `25` (number) - Quantidade total de items por página
++ _links (object) - links de **uri** para navegação
+    + self (object)
+        + href: `/api/v1/users?page=7` (string)
+    + first (object)
+        + href: `/api/v1/users?page=1` (string)
+    + prev (object)
+        + href: `/api/v1/users?page=6` (string)
+    + next (object)
+        + href: `/api/v1/users?page=8` (string)
+    + last (object)
+        + href: `/api/v1/users?page=17` (string)
+
+## MetadataUsers (MetadataCollection)
+
++ _embedded (object)
+    + users (array[UserGet]) - Informações sobre dados de usuários
+
+## MetadataSubjects (MetadataCollection)
+
++ _embedded (object)
+    + subjects (array[SubjectGet]) - Informações sobre dados de disciplinas
+
+## MetadataSchedule (MetadataCollection)
+
++ _embedded (object)
+    + schedules (array[ScheduleGet]) - Informações do horário atual
+
+## MetadataRooms (MetadataCollection)
+
++ _embedded (object)
+    + rooms (array[RoomGet])
+
+## MetadataTeachers (MetadataCollection)
+
++ _embedded (object)
+    + teachers (array[TeacherGet])
